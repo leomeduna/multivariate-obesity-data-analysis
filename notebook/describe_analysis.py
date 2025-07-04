@@ -90,6 +90,60 @@ groupby_freq_categorical
 
 # %%
 #To-do: Visualização das distribuições dos dados numéricos com histogramas e boxplots
+plt.scatter(
+    y=df_final['atividades_fisicas_freq'],
+    x=df_final['peso'],
+    marker= 'o'
+    )
+plt.xlabel(xlabel='Peso'),
+plt.ylabel(ylabel='Atividades_fisicas_freq'),
+plt.grid(True),
+plt.show()
+
+plt.scatter(
+    y=df_final['altura'],
+    x=df_final['peso'],
+    marker= 'o'
+)
+plt.xlabel(xlabel='Altura'),
+plt.ylabel(ylabel='Peso'),
+plt.grid(True)
+plt.show()
+# %%
+
+# Analisando a distribuição.
+plt.hist(
+    bins=30,
+    x=(df_final['peso']) 
+)
+plt.title('Peso')
+plt.grid(True),
+plt.show()
+
+plt.hist(
+    bins=30,
+    x=df_final['altura'] 
+)
+plt.title('Altura')
+plt.grid(True),
+plt.show()
+# %%
+df_final['nivel_obesidade'].unique()
+
+# %%
+obesos = ['Obesity_Type_I',
+          'Obesity_Type_II',
+          'Obesity_Type_III']
+df_obesos = df_final[df_final['nivel_obesidade'].str.contains(
+    'Obesity'
+    )] 
+
+prop_obesos_vs_geral = (len(df_obesos) / len(df_final)) * 100
+print(prop_obesos_vs_geral)
+# %%
+print(len(df_final))
+print(len(df_obesos))
+print(prop_obesos_vs_geral)
 
 # %%
 from sklearn import tree
