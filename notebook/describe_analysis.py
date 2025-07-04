@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # %% 
-df = pd.read_csv(r"C:\research_multivariate_obesity\data\ObesityDataSet_raw_and_data_sinthetic.csv")
+df = pd.read_csv("C:/research_multivariate_obesity/data/ObesityDataSet_raw_and_data_sinthetic.csv")
 df.head()
 # %%
 
@@ -24,7 +24,7 @@ def rename_columns(dataframe: pd.DataFrame) -> pd.DataFrame:
                                     'NCP': 'refs_principais_dia',
                                     'CAEC': 'come_entre_refs',
                                     'SMOKE': 'eh_fumante',
-                                    'CH20': 'agua_dia_freq',
+                                    'CH2O': 'agua_dia_freq',
                                     'SCC': 'faz_controle_calorias_dia',
                                     'FAF': 'atividades_fisicas_freq',
                                     'TUE': 'eletronicos_freq',
@@ -52,3 +52,60 @@ df_final
 
 df_final['bebe_alcool_freq'] = df_final['bebe_alcool_freq'].replace(0, 'no')
 df_final
+# %%
+
+# (EDA): Aplicando uma árvore de decisão para entender melhor os dados
+
+# Passo 1: Definindo as variaveis que vao para o EDA e a nossa 'target' 
+features = ['idade',
+            'altura',	
+            'peso',	
+            'historico_familia_obesidade',	
+            'eh_consumidor_altas_calorias_freq',	
+            'come_vegetais_freq',	
+            'refs_principais_dia',
+            'eh_fumante',
+            'agua_dia_freq',
+            'faz_controle_calorias_dia',
+            'atividades_fisicas_freq',
+            'eletronicos_freq']
+target = ['nivel_obesidade']
+
+X = df_final[features]
+y = df_final[target]
+
+# %%
+# Análise multivariada sobre os dados
+groupby_mean_numerical = df_final.groupby('nivel_obesidade')[features].mean()
+groupby_mean_numerical
+
+# %%
+categorical_cols = [
+    'come_entre_refs',
+    'bebe_alcool_freq'
+                    ]
+
+groupby_freq_categorical = df_final.groupby('nivel_obesidade')[categorical_cols].count()
+groupby_freq_categorical 
+
+# %%
+#To-do: Visualização das distribuições dos dados numéricos com histogramas e boxplots
+
+# %%
+from sklearn import tree
+
+model = tree.DecisionTreeClassifier()
+model.fit(X=X, y=y) 
+
+
+# %%
+
+plt.figure(dpi=400, figsize=(12,4))
+
+tree.plot_tree(
+    model,
+    max_depth=4,
+    feature_names=features,
+    class_names=model.classes_,
+    filled=True
+               )
