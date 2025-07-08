@@ -89,46 +89,13 @@ groupby_freq_categorical = df_final.groupby('nivel_obesidade')[categorical_cols]
 groupby_freq_categorical 
 
 # %%
-#To-do: Visualização das distribuições dos dados numéricos com histogramas e boxplots
-plt.scatter(
-    y=df_final['atividades_fisicas_freq'],
-    x=df_final['peso'],
-    marker= 'o'
-    )
-plt.xlabel(xlabel='Peso'),
-plt.ylabel(ylabel='Atividades_fisicas_freq'),
-plt.grid(True),
-plt.show()
-
-plt.scatter(
-    y=df_final['altura'],
-    x=df_final['peso'],
-    marker= 'o'
-)
-plt.xlabel(xlabel='Altura'),
-plt.ylabel(ylabel='Peso'),
-plt.grid(True)
-plt.show()
-# %%
-
-# Analisando a distribuição.
-plt.hist(
-    bins=30,
-    x=(df_final['peso']) 
-)
-plt.title('Peso')
-plt.grid(True),
-plt.show()
-
-plt.hist(
-    bins=30,
-    x=df_final['altura'] 
-)
-plt.title('Altura')
-plt.grid(True),
-plt.show()
-# %%
-df_final['nivel_obesidade'].unique()
+# 2.1. Análise Univariada 
+for col in features:    
+    plt.figure(figsize=(8, 4))
+    sns.histplot(df_final[col],
+                 kde=True)
+    plt.title(f"Distribuição de {col}")
+    plt.show()
 
 # %%
 obesos = ['Obesity_Type_I',
